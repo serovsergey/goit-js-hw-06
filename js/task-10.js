@@ -3,19 +3,20 @@ function getRandomHexColor() {
 }
 
 const makeBoxMarkup = idx => {
-  const size = 30 + idx * 10;
+  const presentBoxesCount = boxesRef.children.length;
+  const size = 30 + (presentBoxesCount + idx) * 10;
   return `
   <div style="background-color: ${getRandomHexColor()}; 
               width: ${size}px; 
               height: ${size}px">
-            ${idx + 1}
+            ${presentBoxesCount + idx + 1}
   </div>
   `;
 }
 
-const createBoxes = amount => {
+const addBoxes = amount => {
   boxesRef.style = 'display: flex; flex-wrap: wrap';
-  boxesRef.innerHTML = [...Array(amount).keys()].map(makeBoxMarkup).join('');
+  boxesRef.insertAdjacentHTML('beforeend', [...Array(amount).keys()].map(makeBoxMarkup).join(''));
 }
 
 const destroyBoxes = () => {
@@ -23,7 +24,7 @@ const destroyBoxes = () => {
 }
 
 const onCreate = () => {
-  createBoxes(Number(amountRef.value));
+  addBoxes(Number(amountRef.value));
 }
 
 const onDestroy = () => {
